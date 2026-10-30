@@ -27,8 +27,9 @@ Changes
 - change 1
 - change 2
 ### branches
-New brnaches should be named parent/type/name
-e.g Main/art/houses or houses/art/players-house
+New brnaches should be named type/parent/name
+
+e.g art/main/houses or art/houses/players-house
 
 ### merges
 
