@@ -26,6 +26,8 @@ public class PlayerControls : MonoBehaviour
 
     [SerializeField]
     GameController gameController;
+    [SerializeField]
+    CharacterController player;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -40,7 +42,13 @@ public class PlayerControls : MonoBehaviour
         // this is the players directional input
         Vector3 input = moveAction.action.ReadValue<Vector2>();
         Vector3 move = transform.right * input.x + transform.forward * input.y;
-        transform.position += move * moveSpeed * Time.deltaTime;
+        //transform.position += move * moveSpeed * Time.deltaTime;
+        if (!player.isGrounded)
+        {
+            move = new Vector3(move.x, -.5f, move.z);
+        }
+        
+        player.Move(move * moveSpeed * Time.deltaTime);
     }
 
     // this function sets the parent of object in the array _items from inventory.cs
