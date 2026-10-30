@@ -20,17 +20,17 @@ public class UIController : MonoBehaviour
 
     public void UpdateUI()
     {
-        for (int i = 0; i < tmpText.Length; i++)
+       /* for (int i = 0; i < tmpText.Length; i++)
         {
             GameObject _item = inventory.GetItem(i);
             if (_item != null)
             {
                 tmpText[i].text = _item.name;
             }
-        }
+        }*/
     }
-    public void ItemSelect(int index)
+    /*public void ItemSelect(int index)
     {
         player.HoldObject(index);
-    }
+    }*/
 }

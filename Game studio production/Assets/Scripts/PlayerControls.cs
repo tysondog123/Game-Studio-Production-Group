@@ -1,5 +1,7 @@
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerControls : MonoBehaviour
 {
@@ -21,6 +23,9 @@ public class PlayerControls : MonoBehaviour
     [SerializeField]
     GameObject UI;
     GameObject Holding;
+
+    [SerializeField]
+    GameController gameController;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -40,9 +45,9 @@ public class PlayerControls : MonoBehaviour
 
     // this function sets the parent of object in the array _items from inventory.cs
     //at the index to the holdpos varriable and sets its transforms pos and rot to be the same
-    public void HoldObject(int index)
+    /*public void HoldObject(int index)
     {
-        Holding = inventory.GetItem(index);
+       /* Holding = inventory.GetItem(index);
         if (Holding != null)
         {
             Holding.transform.parent = itemHoldPos.transform;
@@ -50,6 +55,7 @@ public class PlayerControls : MonoBehaviour
             Holding.transform.rotation = itemHoldPos.transform.rotation;
         }
     }
+    
 
     // this function returns the item being held to the invetorys item pool, disconecting the object aswell
 
@@ -62,22 +68,23 @@ public class PlayerControls : MonoBehaviour
             Holding = null;
         }
     }
-
+    */
     // this function toggles the temp inventory UI
     public void InventoryUI()
     {
         if (UI.activeInHierarchy)
         {
+            inventory.OpenInventory();
             UI.SetActive(false);
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
-        else
+        else 
         {
             UI.SetActive(true);
             Cursor.lockState = CursorLockMode.Confined;
             Cursor.visible = true;
-            UI.GetComponent<UIController>().UpdateUI();
+            //UI.GetComponent<UIController>().UpdateUI();
         }
     }
 
@@ -89,10 +96,12 @@ public class PlayerControls : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 5f) && hit.collider.CompareTag("Collectible"))
         {
-            if (inventory.AddToInventory(hit.collider.gameObject))
-            {
-                    hit.collider.gameObject.transform.position = new Vector3(0,-10,0);
-            }
+            inventory.GetItem(hit.collider.GetComponent<Items>().ID);
+            Destroy(hit.collider.gameObject);
+
+        }else if(Physics.Raycast(ray, out hit, 5f) && hit.collider.CompareTag("NPC"))
+        {
+            gameController.OpenDialog(hit.collider.GetComponent<TempNPC>().GetInkFile());
         }
     }
 

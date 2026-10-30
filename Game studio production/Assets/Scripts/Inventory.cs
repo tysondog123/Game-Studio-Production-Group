@@ -6,6 +6,29 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
     [SerializeField]
+    ItemsVar[] inventoryItems;
+
+    public void OpenInventory()
+    {
+        foreach (ItemsVar items in inventoryItems)
+        {
+            items.itemRef.SetActive(items.active);
+        }
+    }
+
+    public void GetItem(int ID)
+    {
+        foreach(ItemsVar items in inventoryItems)
+        {
+            if (items.GetUID() == ID)
+            {
+                items.active = true;
+            }
+        }
+    }
+
+    /*
+    [SerializeField]
     int inventroySize = 1;
     [SerializeField]
     private GameObject[] _items;
@@ -53,5 +76,5 @@ public class Inventory : MonoBehaviour
         {
             return null;
         }
-    }
+    }*/
 }
