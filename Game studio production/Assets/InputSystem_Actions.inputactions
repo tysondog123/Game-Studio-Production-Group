@@ -10,7 +10,7 @@
                     "name": "Move",
                     "type": "Value",
                     "id": "351f2ccd-1f9f-44bf-9bec-d62ac5c5f408",
-                    "expectedControlType": "Vector2",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -39,7 +39,7 @@
                     "id": "852140f2-7766-474d-8707-702459ba45f3",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "Hold",
+                    "interactions": "",
                     "initialStateCheck": false
                 },
                 {
@@ -73,7 +73,7 @@
                     "name": "Next",
                     "type": "Button",
                     "id": "b7230bb6-fc9b-4f52-8b25-f5e19cb2c2ba",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -91,6 +91,15 @@
                     "name": "Inventory",
                     "type": "Button",
                     "id": "93dfabff-87b7-4a41-b9bb-a61d58d46508",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "LookAtAmulet",
+                    "type": "Button",
+                    "id": "ecc7bca5-be81-4dfd-9c09-f7c64d601193",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -485,12 +494,34 @@
                 },
                 {
                     "name": "",
-                    "id": "cd608c1d-bf5d-41ac-9876-73ca9b1762f5",
-                    "path": "<Keyboard>/escape",
+                    "id": "0790ef69-baa0-41ca-a454-b0b1277e9560",
+                    "path": "",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Inventory",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c24b78c0-b9c1-456b-bdb8-9f9fa2957b28",
+                    "path": "<Keyboard>/i",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Inventory",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0cd53a90-c664-4d41-a87f-9c48d5c193a9",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "LookAtAmulet",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

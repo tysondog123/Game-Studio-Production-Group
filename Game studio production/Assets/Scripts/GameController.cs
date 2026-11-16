@@ -1,30 +1,47 @@
+using Ink.UnityIntegration;
 using Unity.Mathematics;
 using UnityEngine;
-using Ink.UnityIntegration;
+using UnityEngine.Events;
 
 public class GameController : MonoBehaviour
 {
     [SerializeField]
     DialogController dialogUI;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField]
+    public TimeLoopManager loopManager;
+    [SerializeField]
+    public PlayerControls player;
+    [SerializeField]
+    public SceneSwaper sceneSwaper;
+    [SerializeField]
+    public GameObject Sun;
+    [SerializeField]
+    public Vector2[] SunPos;
+    //temp 
+    public GameObject[] AmuletActions;
+    private void Awake()
     {
-        DontDestroyOnLoad(gameObject);
+        loopManager = FindFirstObjectByType<TimeLoopManager>();
     }
-    public void OpenDialog(InkFile DialogTree)
+
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public void OpenDialog(NPC NPC)
     {
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
         dialogUI.gameObject.SetActive(true);
-        dialogUI.inkFile = DialogTree;
+        dialogUI.SetNPC(NPC);
         dialogUI.StartDialog();
     }
     public void CloseDialog()
     {
-
-        dialogUI.gameObject.SetActive(false);
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        if (loopManager.GetActionCount() > 0)
+        {
+            dialogUI.gameObject.SetActive(false);
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            player.CanMove = true;
+        }
     }
 
 }
