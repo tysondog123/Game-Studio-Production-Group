@@ -47,4 +47,25 @@ public class SceneSwaper : MonoBehaviour
     {
         Application.Quit();
     }
+
+    public void Memories()
+    { 
+    
+    }
+
+    public void DialogueHistory()
+    { 
+    
+    }
+
+    public void BacktoGame()
+    {
+    
+    }
+
+    public void MainMenu()
+    {
+        SceneManager.LoadScene("_MainMain");
+    }
+
 }
