@@ -15,7 +15,7 @@ VAR Locked =0
  //-> Part
  
  ===Introduction1===
- Oh hi champ i was wondering could you help me with something, ive run out of herbs could you run to the herbalist quickly to grab me some?
+ Oh hi champ.
  
 {PartsCompleted:
 -0:->Part1
@@ -25,18 +25,20 @@ VAR Locked =0
  {PartsCompleted:
  -2: ->Introduction3
 }
- Oh welcome back did you get those herbs yet
+ Come on then, the mess wont clean itself.
 {PartsCompleted:
 -0:->Part1
 -1:->Part2
 }
  ===Introduction3===
- i dont have anything else for you to do toady
-->End
+ You done upstairs already
+->Part3
 
 ===Part1===
+i was wondering could you help me clean up some of the tables and rooms in here, its a bit of a mess and i quite busy?
+
  * Ofcourse
-   ~ Event(98)
+   ~ Event(4)
    ~ UseAction()
    ~PartsCompleted++
      Thanks
@@ -47,27 +49,52 @@ VAR Locked =0
         
      
 
-- Be carefull
-    ->End
+-->End
     
  ===Part2===
- ~ CheckLocked(0)
+ ~ CheckLocked(5)
  {Locked:
  -0: -> P2locked
  -1: -> P2Unlocked
  }
  ===P2locked
-    * no
-      oh okay well let me know when you have
+    * Okay
       ->End
  ===P2Unlocked
-    * yes
-       great thanks alot
-      ~Event(97)
+    * Ive already cleand the tables, im going to go upstairs now
+       oh, look at that you have
+       great Job
+      ~Event(6)
       ~PartsCompleted++
-    * no
-      oh okay well let me know when you have
 -->End
+===Part3
+~CheckLocked(7)
+{Locked:
+-0: ->P3Locked
+-1: ->P3Unlocked
+}
+
+===P3Locked
+* no not yet
+  oh, whats the hold up then?
+  ->End
+===P3Unlocked
+  * no, not yet
+      oh, whats the hold up then?
+      ->End
+  * Yes, Im done
+         Wonderfull, could i just ask  or one more thing.
+         could you go to the herbalist to pick up some herbs for my cider im running low
+             **Ofcourse 
+             
+             **No
+                 Come on stop joking with me.
+                  ***okay 
+      
+-Brilliant, thanks 
+~Event(9)
+~PartsCompleted++
+->End
     
     ===End===
     ~TimesSpokenTo++

@@ -18,27 +18,34 @@ VAR PartsCompleted =0
 {PartsCompleted:
 -0:->Part1
 -1:->Part2
+-2:-> Part3
 }
  ===Introduction2===
- Im busy make it quick
+ Here you go, i found some herbs for you
+ .......
+ hey, i see you looking out that window 
+ its bets not to worry.
+ What will be will be but we’ll still be here
 {PartsCompleted:
 -0:->Part1
 -1:->Part2
+-2:-> Part3
 }
  ===Introduction3===
- WHAT???
+ Im busy make it quick
  {PartsCompleted:
 -0:->Part1
--1:->Part2  
+-1:->Part2 
+-2:->Part3 
 }
 
 ===Part1===
  * Hi, could i have some herbs for my uncle Edmund
-   ~ Event(0)
    ~ UseAction()
     ~PartsCompleted++
-   Sure have some
-   <i> Gain Bag of herbs </i>
+   Hmmm, with the harsh winter were having. its probably to cold for many herbs to be growing
+   i guess i could have a look for you though. 
+   wait here for a moment.
  * sorry nothing right now
    well dont inturpt me then
 
@@ -46,10 +53,14 @@ VAR PartsCompleted =0
     ->End
     
     ===Part2===
-    Oh its you again What do you want?
+    > Gain a parcel of herbs < 
+    ~Event(11)
+    ~PartsCompleted++
     ~ UseAction()
     ->End
-    
+    === Part3
+    get going then 
+    ->End
     ===End===
     ~TimesSpokenTo++
     ~Save(0,TimesSpokenTo)

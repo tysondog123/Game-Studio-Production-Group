@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 [Serializable]
 class EventRefs 
@@ -11,6 +12,8 @@ class EventRefs
     [SerializeField]
     int UID;
     public bool HasHappend { get; private set; } = false;
+    [SerializeField]
+    UnityEvent e_Event = new UnityEvent();
     public int GetUID()
     {
         return UID;
@@ -22,5 +25,9 @@ class EventRefs
     public void SetHasHappend()
     {
         HasHappend = true;
+        if (e_Event != null)
+        {
+            e_Event.Invoke();
+        }
     }
 }

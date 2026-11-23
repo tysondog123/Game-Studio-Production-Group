@@ -13,6 +13,7 @@ public class PlayerControls : MonoBehaviour
     float sensitivity = 1;
     [SerializeField]
     float moveSpeed = 5f;
+    float yRotation = 0f;
     float xRotation = 0f;
 
     [SerializeField]
@@ -100,10 +101,19 @@ public class PlayerControls : MonoBehaviour
             float mouseX = mouseDelta.x * sensitivity * Time.deltaTime;
             float mouseY = mouseDelta.y * sensitivity * Time.deltaTime;
 
-            transform.Rotate(Vector3.up * mouseX);
+            yRotation = yRotation + (Vector3.up * mouseX).y;
+            transform.rotation = Quaternion.Euler(transform.eulerAngles.x, yRotation, transform.eulerAngles.z);
             // Rotate the camera around the X-axis (vertical rotation)
             // this line clamps the angle the player can look up and down
             xRotation = Mathf.Clamp(xRotation + (Vector3.left * mouseY).x, -90f, 90f);
+            if (xRotation > 360)
+            {
+                xRotation -= 360;
+            }
+            if (yRotation > 360)
+            {
+                yRotation -= 360;
+            }
             playerCamera.transform.rotation = Quaternion.Euler(xRotation, transform.eulerAngles.y, transform.eulerAngles.z);
         }
     }
