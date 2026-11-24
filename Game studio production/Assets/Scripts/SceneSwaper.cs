@@ -25,7 +25,7 @@ public class SceneSwaper : MonoBehaviour
 
     public void StartGame() // on button press load scene Main
     {
-        SceneManager.LoadScene("Main");
+        SceneManager.LoadScene("Tutorial");
     }
 
     public void LoadGame() // to be added

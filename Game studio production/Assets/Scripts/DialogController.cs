@@ -31,8 +31,12 @@ public class DialogController : MonoBehaviour
     [SerializeField]
     Transform conversationHistory;
     [SerializeField]
+    GameObject convoHistoryUI;
+    [SerializeField]
     TextMeshProUGUI TextPrefab;
-  
+
+    public List<string> PastConvo;
+    GameObject ConvohistoryUI;
     public void SetNPC(NPC _NPC)
     {
         NPC = _NPC;
@@ -61,6 +65,7 @@ public class DialogController : MonoBehaviour
         _inkStory.variablesState["TimesSpokenTo"] = NPC.GetTimesSpokenTo();
         _inkStory.variablesState["PartsCompleted"] = NPC.GetPartsCompleted();
         SetDialog();
+        PastConvo.RemoveRange(0,2);
     }
     void CheckEventStatus(int UID)
     {
@@ -83,9 +88,7 @@ public class DialogController : MonoBehaviour
             }
             Dialg.text = _inkStory.Continue();
             var Text = new UnityEngine.UIElements.Toggle() { text =Dialg.text};
-
-            TextMeshProUGUI Spawned= Instantiate(TextPrefab, conversationHistory);
-            Spawned.text = _inkStory.currentText;
+            PastConvo.Add(Dialg.text);
         }
 
         if (_inkStory.currentChoices.Count > 0)
@@ -97,11 +100,8 @@ public class DialogController : MonoBehaviour
         }
         else
         {
-            conversationHistory.gameObject.SetActive(false);
-            while (conversationHistory.childCount >0)
-            {
-                DestroyImmediate(conversationHistory.GetChild(0).gameObject);
-            }
+            Destroy(convoHistoryUI);
+            PastConvo.Clear();
             gameController.CloseDialog();
         }
     }
@@ -125,6 +125,20 @@ public class DialogController : MonoBehaviour
             _inkStory.ChooseChoiceIndex(Choice);
             SetDialog();
         }
+    }
+    public void LoadConvoHistory()
+    {
+        ConvohistoryUI = Instantiate(convoHistoryUI, transform).gameObject;
+        conversationHistory = ConvohistoryUI.transform.GetChild(0).GetChild(0).GetChild(0);
+        foreach (string dialogLine in PastConvo)
+        {
+            TextMeshProUGUI Spawned = Instantiate(TextPrefab, conversationHistory);
+            Spawned.text = dialogLine;
+        }
+    }
+    public void DestroyConvoH()
+    {
+
     }
     
 }

@@ -1787,6 +1787,16 @@ MonoBehaviour:
   scrollRect: {fileID: 1957403969}
   TextItem: {fileID: 4055889571463815986, guid: aecb2689d60f76b488ad909a5d99689d, type: 3}
   memories:
+  - memoryName: 'Talk to '
+    Start: Your uncle asked you to go collect some herbs
+    UID: 98
+    Connections:
+    - connectionName: Herbs from herbalist
+      MemoryText: ', Which you collected from the herbalist'
+      refrenceEvent: 0
+    - connectionName: Given to uncle
+      MemoryText: ', and finnaly gave them to your uncle'
+      refrenceEvent: 97
   - memoryName: Request from uncle
     Start: Your uncle asked you to go collect some herbs
     UID: 98
