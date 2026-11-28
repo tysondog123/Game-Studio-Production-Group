@@ -14,6 +14,8 @@ public class _CutSceneTrigger : MonoBehaviour
 
     [SerializeField] private float startDelay = 0f;
 
+    [SerializeField] private GameObject UIElement;
+
     private bool hasPlayed;
 
     private void Start()
@@ -30,6 +32,8 @@ public class _CutSceneTrigger : MonoBehaviour
         cutsceneManager.PlayCutscene(cutsceneClip);
 
         hasPlayed = true;
+
+        UIElement.SetActive(true);
     }
 
     private void OnTriggerEnter(Collider other)
