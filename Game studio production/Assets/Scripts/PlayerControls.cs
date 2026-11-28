@@ -1,4 +1,6 @@
+using TMPro;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEditor.EditorTools;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -33,6 +35,8 @@ public class PlayerControls : MonoBehaviour
     public GameController gameController;
     [SerializeField]
     CharacterController player;
+    [SerializeField]
+    GameObject PauseMenu;
 
     public bool CanMove=true;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -159,4 +163,21 @@ public class PlayerControls : MonoBehaviour
         }
     }
     */
+    public void ToggelPause()
+    {
+        if (PauseMenu.activeInHierarchy)
+        {
+            Time.timeScale = 1f;
+            PauseMenu.SetActive(false);
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+        else
+        {
+            Time.timeScale = 0f;
+            PauseMenu.SetActive(true);
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.Confined;
+        }
+    }
 }

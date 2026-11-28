@@ -36,6 +36,7 @@ public class DialogController : MonoBehaviour
     TextMeshProUGUI TextPrefab;
 
     public List<string> PastConvo;
+    public List<string> FullPastConvo;
     GameObject ConvohistoryUI;
     public void SetNPC(NPC _NPC)
     {
@@ -101,6 +102,7 @@ public class DialogController : MonoBehaviour
         else
         {
             Destroy(convoHistoryUI);
+            FullPastConvo.AddRange(PastConvo);
             PastConvo.Clear();
             gameController.CloseDialog();
         }
@@ -128,6 +130,10 @@ public class DialogController : MonoBehaviour
     }
     public void LoadConvoHistory()
     {
+        if (ConvohistoryUI != null)
+        {
+            Destroy(ConvohistoryUI);
+        }
         ConvohistoryUI = Instantiate(convoHistoryUI, transform).gameObject;
         conversationHistory = ConvohistoryUI.transform.GetChild(0).GetChild(0).GetChild(0);
         foreach (string dialogLine in PastConvo)
@@ -135,10 +141,6 @@ public class DialogController : MonoBehaviour
             TextMeshProUGUI Spawned = Instantiate(TextPrefab, conversationHistory);
             Spawned.text = dialogLine;
         }
-    }
-    public void DestroyConvoH()
-    {
-
     }
     
 }
