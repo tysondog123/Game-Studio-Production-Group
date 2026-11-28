@@ -41,7 +41,6 @@ VAR PartsCompleted =0
 
 ===Part1===
  * Hi, could i have some herbs for my uncle Edmund
-   ~ UseAction()
     ~PartsCompleted++
    Hmmm, with the harsh winter were having. its probably to cold for many herbs to be growing
    i guess i could have a look for you though. 

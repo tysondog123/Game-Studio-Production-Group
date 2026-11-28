@@ -31,7 +31,7 @@ VAR Locked =0
 -1:->Part2
 }
  ===Introduction3===
- You done upstairs already
+ You done upstairs already?
 ->Part3
 
 ===Part1===
@@ -46,6 +46,7 @@ i was wondering could you help me clean up some of the tables and rooms in here,
      Oh come on, do it for me
      ** Okay
          i knew i could trust you
+         ~UseAction()
         
      
 
@@ -66,6 +67,7 @@ i was wondering could you help me clean up some of the tables and rooms in here,
        great Job
       ~Event(6)
       ~PartsCompleted++
+      ~UseAction()
 -->End
 ===Part3
 ~CheckLocked(7)

@@ -13,6 +13,21 @@ public class TimeLoopManager : MonoBehaviour
     int sanity;
     [SerializeField]
     int actions = 7;
+    public List<int> EventsThisLoop;
+
+
+    private void Awake()
+    {
+        if (self == null)
+        {
+            self = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+    }
     public bool CheckEventStatus(int UID)
     {
         foreach (EventRefs E in Events)
@@ -46,23 +61,10 @@ public class TimeLoopManager : MonoBehaviour
             {
                 E.SetHasHappend();
                 gameController.player.inventory.ObtainItem(UID);
+                EventsThisLoop.Add(UID);
                 break;
             }
        }
-    }
-
-    private void Awake()
-    {
-        if (self == null)
-        {
-            self = this;
-            DontDestroyOnLoad(this.gameObject);
-        }
-        else
-        {
-            Destroy(this.gameObject);
-        }
-
     }
    
     // Update is called once per frame

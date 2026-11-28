@@ -66,14 +66,17 @@ public class DialogController : MonoBehaviour
         _inkStory.variablesState["TimesSpokenTo"] = NPC.GetTimesSpokenTo();
         _inkStory.variablesState["PartsCompleted"] = NPC.GetPartsCompleted();
         SetDialog();
-        PastConvo.RemoveRange(0,2);
+        if (PastConvo.Count>1)
+        {
+            PastConvo.RemoveRange(0, 2);
+        }
+        
     }
     void CheckEventStatus(int UID)
     {
         if (gameController.loopManager.CheckEventStatus(UID))
         {
             _inkStory.variablesState["Locked"] = 1;
-            Debug.Log(_inkStory.variablesState["Locked"]);
             return;
         }
         _inkStory.variablesState["Locked"] = 0;
@@ -89,7 +92,10 @@ public class DialogController : MonoBehaviour
             }
             Dialg.text = _inkStory.Continue();
             var Text = new UnityEngine.UIElements.Toggle() { text =Dialg.text};
-            PastConvo.Add(Dialg.text);
+            if (Dialg.text != "")
+            {
+                PastConvo.Add(NPC.name + ": " + Dialg.text);
+            }
         }
 
         if (_inkStory.currentChoices.Count > 0)
@@ -101,7 +107,7 @@ public class DialogController : MonoBehaviour
         }
         else
         {
-            Destroy(convoHistoryUI);
+            DestroyImmediate(convoHistoryUI);
             FullPastConvo.AddRange(PastConvo);
             PastConvo.Clear();
             gameController.CloseDialog();

@@ -11,7 +11,6 @@ public class NPC : Interactable
     UnityEvent e_Event = new UnityEvent();
     public override void Interact(PlayerControls player)
     {
-        Debug.Log("Test");
         e_Event.Invoke();
         player.CanMove = false;
     }

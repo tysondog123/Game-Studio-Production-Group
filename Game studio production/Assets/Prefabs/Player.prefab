@@ -596,7 +596,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.74
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
@@ -803,7 +803,6 @@ MonoBehaviour:
   Amulet: {fileID: 8103711897521891389}
   gameController: {fileID: 0}
   player: {fileID: 6350226970181582244}
-  PauseMenu: {fileID: 5655051408207058635}
   CanMove: 1
 --- !u!114 &7286014721689604474
 MonoBehaviour:
@@ -1882,7 +1881,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.05
   far clip plane: 500
   field of view: 60
   orthographic: 0
@@ -2774,6 +2773,26 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -309.4515
       objectReference: {fileID: 0}
+    - target: {fileID: 5284998325100831994, guid: 63bed8c10c7f14a46846241b5164c733, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5284998325100831994, guid: 63bed8c10c7f14a46846241b5164c733, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5284998325100831994, guid: 63bed8c10c7f14a46846241b5164c733, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2532487041198461112}
+    - target: {fileID: 5284998325100831994, guid: 63bed8c10c7f14a46846241b5164c733, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OpenMemories
+      objectReference: {fileID: 0}
+    - target: {fileID: 5284998325100831994, guid: 63bed8c10c7f14a46846241b5164c733, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PlayerControls, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 7146741877256029535, guid: 63bed8c10c7f14a46846241b5164c733, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -2830,10 +2849,5 @@ PrefabInstance:
 --- !u!224 &4820599941705442868 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 356094742863524648, guid: 63bed8c10c7f14a46846241b5164c733, type: 3}
-  m_PrefabInstance: {fileID: 5050554242505151772}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &5655051408207058635 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 607400014479459287, guid: 63bed8c10c7f14a46846241b5164c733, type: 3}
   m_PrefabInstance: {fileID: 5050554242505151772}
   m_PrefabAsset: {fileID: 0}

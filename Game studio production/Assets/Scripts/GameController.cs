@@ -6,9 +6,11 @@ using UnityEngine.Events;
 public class GameController : MonoBehaviour
 {
     [SerializeField]
-    DialogController dialogUI;
+    public DialogController dialogUI;
     [SerializeField]
     public TimeLoopManager loopManager;
+    [SerializeField]
+    public MemoryController memoryController;
     [SerializeField]
     public PlayerControls player;
     [SerializeField]
@@ -22,6 +24,7 @@ public class GameController : MonoBehaviour
     private void Awake()
     {
         loopManager = FindFirstObjectByType<TimeLoopManager>();
+        memoryController = loopManager.GetComponent<MemoryController>();
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

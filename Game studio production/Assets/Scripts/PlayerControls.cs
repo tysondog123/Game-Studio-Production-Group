@@ -35,8 +35,6 @@ public class PlayerControls : MonoBehaviour
     public GameController gameController;
     [SerializeField]
     CharacterController player;
-    [SerializeField]
-    GameObject PauseMenu;
 
     public bool CanMove=true;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -137,47 +135,5 @@ public class PlayerControls : MonoBehaviour
             }
         }
     }
-    // this function sets the parent of object in the array _items from inventory.cs
-    //at the index to the holdpos varriable and sets its transforms pos and rot to be the same
-    /*public void HoldObject(int index)
-    {
-       /* Holding = inventory.GetItem(index);
-        if (Holding != null)
-        {
-            Holding.transform.parent = itemHoldPos.transform;
-            Holding.transform.position=itemHoldPos.transform.position;
-            Holding.transform.rotation = itemHoldPos.transform.rotation;
-        }
-    }
-    
-
-    // this function returns the item being held to the invetorys item pool, disconecting the object aswell
-
-    public void ReturnItem(InputAction.CallbackContext context)
-    {
-        if (Holding!=null)
-        {
-            Holding.gameObject.transform.position = new Vector3(0, -10, 0);
-            Holding.transform.parent = null;
-            Holding = null;
-        }
-    }
-    */
-    public void ToggelPause()
-    {
-        if (PauseMenu.activeInHierarchy)
-        {
-            Time.timeScale = 1f;
-            PauseMenu.SetActive(false);
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
-        }
-        else
-        {
-            Time.timeScale = 0f;
-            PauseMenu.SetActive(true);
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.Confined;
-        }
-    }
+   
 }
