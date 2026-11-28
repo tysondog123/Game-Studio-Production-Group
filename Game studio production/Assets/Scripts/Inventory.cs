@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System;
 using Unity.VisualScripting;
 using UnityEditor;
@@ -7,22 +8,39 @@ public class Inventory : MonoBehaviour
 {
     [SerializeField]
     ItemsVar[] inventoryItems;
+    public GameController gameController;
 
     public void OpenInventory()
     {
         foreach (ItemsVar items in inventoryItems)
         {
-            items.itemRef.SetActive(items.active);
+            if (!items.SetActive())
+            {
+                Debug.LogWarning($"Item{items.GetUID()} not set");
+            }
         }
     }
+    public bool IsKeyItem(int UID)
+    {
+        foreach (ItemsVar items in inventoryItems)
+        {
+            if (items.GetUID() == UID)
+            {
+                return items.IsKeyItem();
+            }
+        }
+        return false;
+            
+    }
 
-    public void GetItem(int ID)
+    public void ObtainItem(int ID)
     {
         foreach(ItemsVar items in inventoryItems)
         {
             if (items.GetUID() == ID)
             {
-                items.active = true;
+                items.Obtained(true);
+                
             }
         }
     }

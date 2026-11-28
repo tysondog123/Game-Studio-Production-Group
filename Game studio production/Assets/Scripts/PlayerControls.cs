@@ -1,7 +1,11 @@
+using TMPro;
 using Unity.Mathematics;
+using Unity.VisualScripting;
+using UnityEditor.EditorTools;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.XR;
 
 public class PlayerControls : MonoBehaviour
 {
@@ -11,6 +15,7 @@ public class PlayerControls : MonoBehaviour
     float sensitivity = 1;
     [SerializeField]
     float moveSpeed = 5f;
+    float yRotation = 0f;
     float xRotation = 0f;
 
     [SerializeField]
@@ -18,39 +23,120 @@ public class PlayerControls : MonoBehaviour
     [SerializeField]
     GameObject itemHoldPos;
 
-    Inventory inventory;
+    public Inventory inventory { get; private set; }
 
     [SerializeField]
     GameObject UI;
+    [SerializeField]
+    GameObject Amulet;
     GameObject Holding;
 
     [SerializeField]
-    GameController gameController;
+    public GameController gameController;
     [SerializeField]
     CharacterController player;
+    [SerializeField]
+    GameObject PauseMenu;
+
+    public bool CanMove=true;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        inventory = GetComponent<Inventory>();
+        gameController.loopManager.NewDay();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        inventory = GetComponent<Inventory>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        // this is the players directional input
-        Vector3 input = moveAction.action.ReadValue<Vector2>();
-        Vector3 move = transform.right * input.x + transform.forward * input.y;
-        //transform.position += move * moveSpeed * Time.deltaTime;
-        if (!player.isGrounded)
+        if (CanMove)
         {
-            move = new Vector3(move.x, -.5f, move.z);
+            // this is the players directional input
+            Vector3 input = moveAction.action.ReadValue<Vector2>();
+            Vector3 move = transform.right * input.x + transform.forward * input.y;
+            //transform.position += move * moveSpeed * Time.deltaTime;
+            if (!player.isGrounded)
+            {
+                move = new Vector3(move.x, -.5f, move.z);
+            }
+            player.Move(move * moveSpeed * Time.deltaTime);
         }
-        
-        player.Move(move * moveSpeed * Time.deltaTime);
     }
 
+    // this function toggles the temp inventory UI
+    public void InventoryUI()
+    {
+        if (UI.activeInHierarchy)
+        {
+            inventory.OpenInventory();
+            UI.SetActive(false);
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+        else 
+        {
+            UI.SetActive(true);
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = true;
+        }
+    }
+
+    // this function shoots a raycast from the players pov forward to check for objects with the tag "Collectible",
+    // if it hits one it attempts to add it to the inventory. this function is only called when the action interact happens (or E is pressed)
+    public void Interact(InputAction.CallbackContext context)
+    {
+        Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, 5f) && hit.collider.CompareTag("Interactable"))
+        {
+            hit.transform.GetComponent<Interactable>().Interact(this);
+
+        }
+    }
+
+    // this function takes the mouse's input to rotate the player and the camera accordingly
+    public void MouseLook(InputAction.CallbackContext context)
+    {
+        if (CanMove)
+        {
+            Vector2 mouseDelta = context.ReadValue<Vector2>();
+            float mouseX = mouseDelta.x * sensitivity * Time.deltaTime;
+            float mouseY = mouseDelta.y * sensitivity * Time.deltaTime;
+
+            yRotation = yRotation + (Vector3.up * mouseX).y;
+            transform.rotation = Quaternion.Euler(transform.eulerAngles.x, yRotation, transform.eulerAngles.z);
+            // Rotate the camera around the X-axis (vertical rotation)
+            // this line clamps the angle the player can look up and down
+            xRotation = Mathf.Clamp(xRotation + (Vector3.left * mouseY).x, -90f, 90f);
+            if (xRotation > 360)
+            {
+                xRotation -= 360;
+            }
+            if (yRotation > 360)
+            {
+                yRotation -= 360;
+            }
+            playerCamera.transform.rotation = Quaternion.Euler(xRotation, transform.eulerAngles.y, transform.eulerAngles.z);
+        }
+    }
+
+    public void ToggelAmulet()
+    {
+        if (Amulet != null) 
+        { 
+
+            if (Amulet.activeInHierarchy)
+            {
+                Amulet.SetActive(false);
+            }
+            else
+            {
+                Amulet.SetActive(true);
+            }
+        }
+    }
     // this function sets the parent of object in the array _items from inventory.cs
     //at the index to the holdpos varriable and sets its transforms pos and rot to be the same
     /*public void HoldObject(int index)
@@ -77,53 +163,21 @@ public class PlayerControls : MonoBehaviour
         }
     }
     */
-    // this function toggles the temp inventory UI
-    public void InventoryUI()
+    public void ToggelPause()
     {
-        if (UI.activeInHierarchy)
+        if (PauseMenu.activeInHierarchy)
         {
-            inventory.OpenInventory();
-            UI.SetActive(false);
-            Cursor.lockState = CursorLockMode.Locked;
+            Time.timeScale = 1f;
+            PauseMenu.SetActive(false);
             Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
         }
-        else 
+        else
         {
-            UI.SetActive(true);
-            Cursor.lockState = CursorLockMode.Confined;
+            Time.timeScale = 0f;
+            PauseMenu.SetActive(true);
             Cursor.visible = true;
-            //UI.GetComponent<UIController>().UpdateUI();
+            Cursor.lockState = CursorLockMode.Confined;
         }
-    }
-
-    // this function shoots a raycast from the players pov forward to check for objects with the tag "Collectible",
-    // if it hits one it attempts to add it to the inventory. this function is only called when the action interact happens (or E is pressed)
-    public void Interact(InputAction.CallbackContext context)
-    {
-        Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, 5f) && hit.collider.CompareTag("Collectible"))
-        {
-            inventory.GetItem(hit.collider.GetComponent<Items>().ID);
-            Destroy(hit.collider.gameObject);
-
-        }else if(Physics.Raycast(ray, out hit, 5f) && hit.collider.CompareTag("NPC"))
-        {
-            gameController.OpenDialog(hit.collider.GetComponent<TempNPC>().GetInkFile());
-        }
-    }
-
-    // this function takes the mouse's input to rotate the player and the camera accordingly
-    public void MouseLook(InputAction.CallbackContext context)
-    {
-        Vector2 mouseDelta = context.ReadValue<Vector2>();
-        float mouseX = mouseDelta.x * sensitivity * Time.deltaTime; 
-        float mouseY = mouseDelta.y * sensitivity * Time.deltaTime;
-
-        transform.Rotate(Vector3.up * mouseX);
-        // Rotate the camera around the X-axis (vertical rotation)
-        // this line clamps the angle the player can look up and down
-        xRotation = Mathf.Clamp(xRotation + (Vector3.left * mouseY).x, -90f, 90f);
-        playerCamera.transform.rotation = Quaternion.Euler(xRotation,transform.eulerAngles.y,transform.eulerAngles.z);
     }
 }
